@@ -1,19 +1,13 @@
-@extends('layouts.app')
-@section('title', 'Dashboard')
-@section('classMain', 'dashboard')
+@extends('layouts.dashboard')
+@section('nameModule', 'Inicio')
 
 @section('content')
-    <div class="container">
-        <h1>Dashboard</h1>
-
-        <div>
-            <label for="">user</label>
-        </div>
-
-    </div>
-
+<h1>Contenido Principal</h1>
+<p>Bienvenido al panel de control. Aquí puedes ver la información principal.</p>
+<p></p>
+<!-- Agrega más contenido aquí -->
 @endsection
 
 @section('js')
-    <script src="/js/dashboard.js"></script>
+
 @endsection
