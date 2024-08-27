@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <script src="{{ asset('js/sweetalert2.all.min.js')}}"></script>
 </head>
 
 <body>
@@ -16,7 +17,7 @@
                 <div class="sidebar-item" onclick="window.location.href='{{ route('dashboard') }}'" >
                     Inicio
                 </div>
-                <div class="sidebar-item" @if(Route::currentRouteName() != 'tools.index') onclick="window.location.href='{{ route('dashboard') }}'" @endif>
+                <div class="sidebar-item" @if(Route::currentRouteName() != 'tools.index') onclick="window.location.href='{{ route('tools.index') }}'" @endif>
                     Herramientas
                     @if(Route::currentRouteName() == 'tools.index')
                         <div class="submenu">
@@ -49,13 +50,19 @@
             <header class="header">
                 <button class="menu-toggle" id="menu-toggle">☰</button>
                 <div class="header-title">@yield('nameModule')</div>
+                <div class="search-module">
+                    <input type="text" placeholder="Buscar..." class="search-input" id="qsearch">
+                </div>
                 <div class="user-info">
                     <img src="user-profile.jpg" alt="Foto de Usuario" class="user-photo" id="user-photo">
                     <div class="dropdown" id="dropdown">
                         <div class="dropdown-menu">
                             <button class="dropdown-item">{{ Auth::User()->nombre_completo }}</button>
                             <button class="dropdown-item">Perfil</button>
-                            <button class="dropdown-item">Cerrar sesión</button>
+                            <button onclick="logout.submit()" class="dropdown-item">Cerrar sesión</button>
+                            <form method="POST" id="logout" action="{{ route('logout')}}">
+                                @csrf
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -83,12 +90,31 @@
                         @yield('formEdit')
                     </div>
                 </div>
-
                 <!-- Fin modal Actualizar-->
             </div>
         </div>
     </div>
     <script src="{{ asset('js/script.js') }}"></script>
+    <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
+    <script>
+        @if (session('message'))
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: "{{ session('message') }}"
+            });
+        @endif
+    </script>
     @yield('js')
 </body>
 

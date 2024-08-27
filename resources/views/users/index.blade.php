@@ -3,7 +3,6 @@
 
 @section('content')
     <div class="user-cards">
-
         @foreach ($users as $user)
             <div class="user-card">
                 <div class="user-card-content">
@@ -11,14 +10,18 @@
                     <p>Tipo de documento: {{ $user->tipo_documento }}</p>
                     <p>Documento: {{ $user->documento }}</p>
                     <p>Ficha ID: {{ $user->ficha_id }}</p>
-                    <p>Rol: {{ $user->rol }}</p>
-                    <p>Estado: {{ $user->estado }}</p>
+                    <p>Rol: {{ ucfirst(strtolower($user->rol)) }}</p>
+                    <p>Estado: {{ ucfirst(strtolower($user->estado)) }}</p>
                     <p>Email: {{ $user->email }}</p>
-                    <p hidden>id: {{$user->id}}</p>
+                    <p hidden>id: {{ $user->id }}</p>
                 </div>
                 <div class="user-card-actions">
                     <button class="edit-btn">Editar</button>
                     <button class="delete-btn">Eliminar</button>
+                    <form method="POST" action="{{ url('users/' . $user->id) }}" style="display: none">
+                        @csrf
+                        @method('DELETE')
+                    </form>
                 </div>
             </div>
         @endforeach
@@ -26,7 +29,7 @@
 @endsection
 
 @section('formCreate')
-    <form method="POST" id="crearForm" action="{{ route('users.store')}}">
+    <form method="POST" id="crearForm" action="{{ route('users.store') }}">
         @csrf
         <label for="nombre_completo">Nombre completo:</label>
         <input type="text" id="nombre_completo" name="nombre_completo" required>
@@ -66,7 +69,7 @@
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
 
-        
+
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
@@ -93,7 +96,7 @@
 @endsection
 
 @section('formEdit')
-    <form method="POST" id="editForm" action="" data-action-base="{{ url('users/')}}">
+    <form method="POST" id="editForm" action="" data-action-base="{{ url('users/') }}">
         @csrf
         @method('PUT')
 
@@ -126,17 +129,17 @@
         <div>
             <label for="edit_rol">Rol</label>
             <select id="edit_rol" name="rol">
-                <option value="user">Aprendiz</option>
-                <option value="instructor">Instructor</option>
-                <option value="admin">Administrador</option>
+                <option value="Aprendiz">Aprendiz</option>
+                <option value="Instructor">Instructor</option>
+                <option value="Admin">Administrador</option>
             </select>
         </div>
 
         <div>
             <label for="edit_estado">Estado</label>
             <select id="edit_estado" name="estado">
-                <option value="activo">Activo</option>
-                <option value="inactivo">Inactivo</option>
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
             </select>
         </div>
 
@@ -147,8 +150,49 @@
         </div>
 
         <div class="modal-actions">
-            <button type="submit" class="save-btn">Guardar</button>
+            <button type="submit" class="save-btn">Actualizar</button>
             <button type="button" class="cancel-btn">Cancelar</button>
         </div>
     </form>
+@endsection
+
+@section('js')
+
+    <script>
+        $('div').on('click', '.delete-btn', function() {
+            $nombre_completo = $(this).parent().parent().find('h3').text().split(":").pop().trim();
+
+            Swal.fire({
+                title: "¿Realmente quiere eliminar a " + $nombre_completo + "?",
+                text: "¡Este proceso es irrevercible!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, eliminalo!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $(this).next().submit();
+                }
+            });
+        });
+
+        // reconocer el cambio de tecla de búsqueda
+        $('#qsearch').on('keyup', function(e) {
+            e.preventDefault();
+            $query = $(this).val();
+            $token = $('input[name=_token]').val();
+
+            $.post('users/search', 
+                {
+                    q: $query,
+                    _token: $token
+                },
+                function(data) {
+                    $('.content').empty().append(data);
+                }
+            )
+        });
+    </script>
+
 @endsection

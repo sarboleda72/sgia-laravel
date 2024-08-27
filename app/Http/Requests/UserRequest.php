@@ -33,18 +33,18 @@ class UserRequest extends FormRequest
                 'estado' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class.',email,'.$this->id],
             ];
-        }else{
-            return [
-                //
-                'nombre_completo' => ['required', 'string', 'max:255'],
-                'tipo_documento' => ['required', 'string', 'max:255'],
-                'documento' => ['required', 'string', 'max:255','unique:'.User::class],
-                'ficha_id' => ['required', 'string', 'max:255'],
-                'rol' => ['required', 'string', 'max:255'],
-                'estado' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-                'password' => ['required', 'confirmed'],
-            ];
         }
+
+        return [
+            //
+            'nombre_completo' => ['required', 'string', 'max:255'],
+            'tipo_documento' => ['required', 'string', 'max:255'],
+            'documento' => ['required', 'string', 'max:255','unique:'.User::class],
+            'ficha_id' => ['required', 'string', 'max:255'],
+            'rol' => ['required', 'string', 'max:255'],
+            'estado' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed'],
+        ];
     }
 }

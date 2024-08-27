@@ -34,6 +34,7 @@ class UserController extends Controller
     {
         //
         //dd($request->all());
+        // crear con ORM
 
         $user= new User();
         $user->nombre_completo = $request->nombre_completo;
@@ -90,8 +91,16 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
         //
+        if($user->delete()){
+            return redirect('users')->with('message', 'El usuario '.$user->nombre_completo .' fue eliminado con éxito');
+        }
+    }
+
+    public function search(Request $request){
+        $users = User::names($request->q)->get();
+        return view('users.search')->with('users', $users);
     }
 }

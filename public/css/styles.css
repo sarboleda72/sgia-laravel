@@ -250,13 +250,13 @@ body {
         color: #999;
     }
 
-    #crearForm{
+    #crearForm {
         display: flex;
         flex-direction: column;
         overflow-y: auto;
     }
 
-    select{
+    select {
         width: 30%;
         height: 40px;
     }
@@ -420,5 +420,25 @@ body {
 
     .cancel-btn:hover {
         background-color: #c62828;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        gap: 10px;
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        select{
+            width: 30%;
+            height: 40px;
+        }
     }
 }
