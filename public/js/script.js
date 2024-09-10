@@ -120,6 +120,37 @@ if (currentPath === '/tools') {
   });
 }
 
+if (currentPath === '/loans') {
+  document.querySelectorAll('.edit-btn').forEach(button => {
+    button.addEventListener('click', function () {
+      const card = this.closest('.user-card');
+      const nombreUsuario = card.querySelector('h3').innerText.split(": ")[1];
+      const nombreHerramienta = card.querySelector('p:nth-child(2)').innerText.split(": ")[1];
+      const Marca = card.querySelector('p:nth-child(3)').innerText.split(": ")[1];
+      const fechaPrestamo = card.querySelector('p:nth-child(4)').innerText.split(": ")[1];
+      const fechaDevolucion = card.querySelector('p:nth-child(5)').innerText.split(": ")[1];
+      const fechaFin= card.querySelector('p:nth-child(6)').innerText.split(": ")[1];
+      const estado = card.querySelector('p:nth-child(7)').innerText.split(": ")[1];
+      const id = card.querySelector('p:nth-child(8)').innerText.split(": ")[1];
+
+      document.getElementById('nombre_usuario').value = nombreUsuario;
+      document.getElementById('nombre_herramienta').value = nombreHerramienta;
+      document.getElementById('marca').value = Marca;
+      document.getElementById('fecha_prestamo').value = fechaPrestamo;
+      document.getElementById('fecha_devolucion').value = fechaDevolucion;
+      document.getElementById('fecha_fin').value = fechaFin;
+      document.getElementById('estado').value = estado;
+      document.getElementById('id').value = id;
+
+
+      const baseUrl = document.getElementById('editForm').getAttribute('data-action-base');
+      document.getElementById('editForm').action = `${baseUrl}/${id}`;
+      document.getElementById('editModal').style.display = 'flex';
+    });
+  });
+}
+
+
 document.querySelector('.close-btn-actualizar').addEventListener('click', function () {
   document.getElementById('editModal').style.display = 'none';
   console.log('click');

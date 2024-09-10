@@ -30,4 +30,10 @@ class Tool extends Model
             ->orWhere('cantidad', 'LIKE', '%'.$query.'%');
         }
     }
+
+    public function tools(){
+        return $this->belongToMany(Tool::class, 'loan')
+                ->withPivot('fecha_prestamo', 'fecha_fin', 'fecha_devolucion', 'estado')
+                ->withTimestamps();
+    }
 }

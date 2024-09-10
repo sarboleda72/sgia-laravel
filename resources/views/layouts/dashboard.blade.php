@@ -25,7 +25,7 @@
                         </div>
                     @endif
                 </div>
-                <div class="sidebar-item" @if(Route::currentRouteName() != 'loans.index') onclick="window.location.href='{{ route('dashboard') }}'" @endif>
+                <div class="sidebar-item" @if(Route::currentRouteName() != 'loans.index') onclick="window.location.href='{{ route('loans.index') }}'" @endif>
                     Préstamos
                     @if(Route::currentRouteName() == 'loans.index')
                     <div class="submenu">

@@ -57,4 +57,10 @@ class User extends Authenticatable
             ->orWhere('documento', 'LIKE', '%'.$query.'%');
         }
     }
+
+    public function users(){
+        return $this->belongsToMany(User::class, 'loans')
+                ->withPivot('fecha_prestamo', 'fecha_fin', 'fecha_devolucion', 'estado')
+                ->withTimestamps();
+    }
 }
